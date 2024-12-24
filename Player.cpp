@@ -1,23 +1,27 @@
 #include "Player.h"
 
-void Player::Update()
+void Player::Update(vector<Tile> tiles)
 {
+	dPos = { 0,0 };
+
 	if (IsKeyDown(KEY_W))
 	{
-		pos.y--;
+		dPos.y--;
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		pos.x--;
+		dPos.x--;
 	}
 	if (IsKeyDown(KEY_S))
 	{
-		pos.y++;
+		dPos.y++;
 	}
 	if (IsKeyDown(KEY_D))
 	{
-		pos.x++;
+		dPos.x++;
 	}
+
+	Collision(tiles);
 
 	this->Draw();
 }
@@ -25,10 +29,7 @@ void Player::Update()
 Player::Player(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale, float speed)
 	:Entity(pos, hitbox, filename, scale, speed)
 {
-
+	camera = { 0,0,(float)GetRenderWidth(), (float)GetRenderHeight() };
 }
 
-Player::~Player()
-{
-	
-}
+Player::~Player() { }

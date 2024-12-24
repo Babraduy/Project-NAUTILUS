@@ -2,17 +2,19 @@
 
 #include "raylib.h"
 #include <iostream>
+
+#include "Tile.h"
+
 using namespace std;
 
 class Entity
 {
 private:
+	Texture2D texture;
 
 public:
-	Vector2 pos, scale;
+	Vector2 pos, dPos, scale;
 	Rectangle hitbox;
-	Image img;
-	Texture2D texture;
 	float speed;
 
 	Entity(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale = {1,1}, float speed=1);
@@ -20,6 +22,6 @@ public:
 
 	void Draw();
 
-	void Collision();
+	void Collision(vector<Tile> tiles);
 };
 
