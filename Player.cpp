@@ -6,19 +6,19 @@ void Player::Update(vector<Tile> tiles)
 
 	if (IsKeyDown(KEY_W))
 	{
-		dPos.y--;
+		dPos.y-= speed * GetFrameTime();
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		dPos.x--;
+		dPos.x-= speed * GetFrameTime();
 	}
 	if (IsKeyDown(KEY_S))
 	{
-		dPos.y++;
+		dPos.y+=speed * GetFrameTime();
 	}
 	if (IsKeyDown(KEY_D))
 	{
-		dPos.x++;
+		dPos.x+=speed * GetFrameTime();
 	}
 
 	Collision(tiles);

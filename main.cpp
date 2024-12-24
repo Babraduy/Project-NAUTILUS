@@ -61,7 +61,7 @@ int main()
 	SetTargetFPS(144);
 	SetExitKey(0);
 
-	Player player({ 0,0 }, { 0,0,0,0 }, "img/character/frame1.png", {5,5});
+	Player player({ 0,0 }, { 0,0,0,0 }, "img/character/frame1.png", {5,5}, 200);
 
 	Grid grid;
 

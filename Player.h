@@ -15,7 +15,7 @@ public:
 
 	void Update(vector<Tile> tiles);
 
-	Player(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale = { 1,1 }, float speed = 1);
+	Player(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale = { 1,1 }, float speed = 100);
 	~Player();
 };
 
