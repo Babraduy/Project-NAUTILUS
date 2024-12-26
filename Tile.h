@@ -20,8 +20,10 @@ private:
 
 public:
 	TileType type;
-	
+
+	Tile() {}
 	Tile(Rectangle rect, TileType type, const char* filename);
+	Tile(Rectangle rect, TileType type, Texture& texture);
 
 	void Draw();
 };
