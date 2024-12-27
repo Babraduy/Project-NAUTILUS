@@ -4,11 +4,12 @@
 
 #include "Player.h"
 
-#define WIDTH 800
-#define HEIGHT 600
-#define TILE 50
+#define START_WIDTH 320
+#define START_HEIGHT 180
 
 using namespace std;
+
+float tileSize = 18;
 
 struct Grid
 {
@@ -16,13 +17,14 @@ struct Grid
 
     int getCellIndex(int x, int y)
     {
-        return (y / TILE) * 10000 + (x / TILE);
+        return (y /(int) tileSize) * 10000 + (x / (int)tileSize);
     }
 
     void addTile(const Tile& tile)
     {
         int topLeft = getCellIndex(tile.x, tile.y);
         int bottomRight = getCellIndex(tile.x + tile.width, tile.y + tile.height);
+
 
         for (int y = topLeft / 10000; y <= bottomRight / 10000; y++)
         {
@@ -37,6 +39,7 @@ struct Grid
     {
         int topLeft = getCellIndex(area.x, area.y);
         int bottomRight = getCellIndex(area.x + area.width, area.y + area.height);
+
         vector<Tile> result;
 
         for (int y = topLeft / 10000; y <= bottomRight / 10000; y++)
@@ -57,42 +60,84 @@ struct Grid
 
 int main()
 {
-	InitWindow(WIDTH, HEIGHT, "Project NAUTILUS");
+	InitWindow(START_WIDTH, START_HEIGHT, "Project NAUTILUS");
 	SetTargetFPS(144);
 	SetExitKey(0);
 
-	Player player({ 0,0 }, { 0,0,TILE,TILE }, "img/character/frame1.png", {5,5}, 200);
+    int width = 1280, height = 720;
+
+    vector<Texture2D> playerFront = { LoadTexture("img/amilia/front/01.png") };
+    vector<Texture2D> playerSide = { LoadTexture("img/amilia/side/01.png") };
+    vector<Texture2D> playerBack = { LoadTexture("img/amilia/back/01.png") };
+
+    Player player({ 0,0 }, { 0, 0, 0, tileSize }, playerFront, playerSide, playerBack, 100);
 
 	Grid grid;
 
-	grid.addTile(Tile({ 400,400,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-	grid.addTile(Tile({ 450,400,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-	grid.addTile(Tile({ 500,400,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-	grid.addTile(Tile({ 550,400,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-	grid.addTile(Tile({ 600,400,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
+	grid.addTile(Tile({ 40,180-tileSize,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+	grid.addTile(Tile({ 40+tileSize,180 - tileSize,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+	grid.addTile(Tile({ 40+tileSize*2,180 - tileSize,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40+tileSize*3,180 - tileSize,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+	grid.addTile(Tile({ 40+tileSize*4,180 - tileSize,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
 
-    grid.addTile(Tile({ 400,350,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-    grid.addTile(Tile({ 450,300,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-    grid.addTile(Tile({ 500,250,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-    grid.addTile(Tile({ 550,200,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
-    grid.addTile(Tile({ 600,150,TILE,TILE }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40,180 -tileSize*2,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40+tileSize,180 - tileSize*3,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40+tileSize*2,180 - tileSize*4,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40+tileSize*3,180 - tileSize*5,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
+    grid.addTile(Tile({ 40+tileSize*4,180 - tileSize*6,tileSize,tileSize }, SOLID, "img/ph_roomtile.png"));
 
-	vector<Tile> visibleTiles = grid.getNearbyTiles(player.camera);
+    vector<Tile> visibleTiles = grid.getNearbyTiles(player.camera);
+
+    RenderTexture2D renderTexture = LoadRenderTexture(GetRenderWidth(), GetRenderHeight());
+
+    SetWindowSize(width, height);
 
 	while (!WindowShouldClose())
 	{
-		BeginDrawing();
+        if (IsKeyPressed(KEY_F10))
+        {
+            if (IsWindowFullscreen())
+            {
+                SetWindowSize(width, height);
+            }
+            else
+            {
+                SetWindowSize(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()));
+            }
+
+            ToggleFullscreen();
+        }
+
+
+
+		BeginTextureMode(renderTexture);
 
 		ClearBackground(BLACK);
 
-		player.Update(grid.getNearbyTiles({player.pos.x- TILE, player.pos.y- TILE, TILE *3, TILE *3}));
+		player.Update(grid.getNearbyTiles({player.pos.x - tileSize, player.pos.y - tileSize, tileSize * 3, tileSize * 3}));
+
+        vector<Tile> playerTiles = grid.getNearbyTiles({ player.pos.x - tileSize, player.pos.y - tileSize, tileSize * 3, tileSize * 3 });
 
 		for (Tile tile : visibleTiles)
 		{
 			tile.Draw();
 		}
 
-		EndDrawing();
+		EndTextureMode();
+
+
+
+        BeginDrawing();
+
+        DrawTexturePro(
+            renderTexture.texture,
+            Rectangle{ 0, 0, float(renderTexture.texture.width), float(-renderTexture.texture.height) },
+            Rectangle{ 0, 0, float(GetRenderWidth()), float(GetRenderHeight()) },
+            Vector2{ 0, 0 },
+            0,
+            WHITE);
+
+        EndDrawing();
 	}
 
 	CloseWindow();

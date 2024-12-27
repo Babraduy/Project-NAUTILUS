@@ -25,6 +25,6 @@ Tile::Tile(Rectangle rect, TileType type, Texture& texture)
 void Tile::Draw()
 {
 	DrawTexturePro(texture, { 0,0,(float)texture.width,(float)texture.height },
-		{ x, y,(float)texture.width * width / (float)texture.width, (float)texture.height * height / (float)texture.height },
+		{ x, y,(float)texture.width, (float)texture.height },
 		{ 0,0 }, 0, WHITE);
 }

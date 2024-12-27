@@ -4,23 +4,22 @@
 #include <iostream>
 
 #include "Tile.h"
+#include "Animation.h"
 
 using namespace std;
 
 class Entity
 {
 private:
-	Texture2D texture;
+	vector<Texture2D> textures;
 
 public:
-	Vector2 pos, dPos, scale;
+	Vector2 pos, dPos;
 	Rectangle hitbox;
 	float speed;
 
-	Entity(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale = {1,1}, float speed=100);
-	~Entity();
-
-	void Draw();
+	Entity(Vector2 pos, Rectangle hitbox, const char* filename, float speed=100);
+	Entity(Vector2 pos, Rectangle hitbox, vector<Texture2D> frames, float speed=100);
 
 	void Collision(vector<Tile> tiles);
 };

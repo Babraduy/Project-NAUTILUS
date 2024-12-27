@@ -1,31 +1,38 @@
 #include "Entity.h"
 
-Entity::Entity(Vector2 pos, Rectangle hitbox, const char* filename, Vector2 scale, float speed)
-	: pos(pos), hitbox(hitbox), scale(scale), speed(speed)
+Entity::Entity(Vector2 pos, Rectangle hitbox, const char* filename, float speed)
+	: pos(pos), hitbox(hitbox), speed(speed), dPos({0,0})
+{
+	this->hitbox.x += pos.x;
+	this->hitbox.y += pos.y;
+	textures.push_back(LoadTexture(filename));
+
+	if (hitbox.width == 0)
+	{
+		this->hitbox.width = textures[0].width;
+	}
+
+	if (hitbox.height == 0)
+	{
+		this->hitbox.height = textures[0].height;
+	}
+}
+
+Entity::Entity(Vector2 pos, Rectangle hitbox, vector<Texture2D> frames, float speed)
+	: pos(pos), hitbox(hitbox), speed(speed), dPos({ 0,0 })
 {
 	this->hitbox.x += pos.x;
 	this->hitbox.y += pos.y;
 
-	dPos = { 0,0 };
-	texture = LoadTexture(filename);
-
-	if (hitbox.width == 0 && hitbox.height == 0)
+	if (hitbox.width == 0)
 	{
-		this->hitbox.width = texture.width * scale.x;
-		this->hitbox.height = texture.height * scale.y;
+		this->hitbox.width = frames[0].width;
 	}
-}
 
-Entity::~Entity()
-{
-	UnloadTexture(texture);
-}
-
-void Entity::Draw()
-{
-	DrawTexturePro(texture, { 0,0,(float)texture.width,(float)texture.height },
-		{ pos.x, pos.y,(float)texture.width * scale.x, (float)texture.height * scale.y },
-		{ 0, 0 }, 0, WHITE);
+	if (hitbox.height == 0)
+	{
+		this->hitbox.height = frames[0].height;
+	}
 }
 
 void Entity::Collision(vector<Tile> tiles)
