@@ -66,11 +66,7 @@ int main()
 
     int width = 1280, height = 720;
 
-    vector<Texture2D> playerFront = { LoadTexture("img/amilia/front/01.png") };
-    vector<Texture2D> playerSide = { LoadTexture("img/amilia/side/01.png") };
-    vector<Texture2D> playerBack = { LoadTexture("img/amilia/back/01.png") };
-
-    Player player({ 0,0 }, { 0, 0, 0, tileSize }, playerFront, playerSide, playerBack, 100);
+    Player player({ 0,0 }, { 0, 0, 0, tileSize }, 100);
 
 	Grid grid;
 

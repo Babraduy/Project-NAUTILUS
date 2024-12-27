@@ -1,28 +1,39 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <algorithm>
+#include <nlohmann/json.hpp>
 #include "raylib.h"
 
 using namespace std;
+using namespace nlohmann;
+
+struct Frame
+{
+	int x, y, w, h;
+};
 
 class Animation
 {
 private:
-	vector<Texture2D> frames;
+	Texture2D spriteSheet;
+	string currentAnimation;
 	unsigned int currentFrame;
 	float frameDuration, elapsedTime;
 	bool loop, isFinished;
 
 public:
+	vector<Frame> frames;
 	int flipX;
 	int flipY;
 
-	Animation(vector<Texture2D>& frames, float frameDuration, bool loop = true);
+	Animation(string animation);
 	Animation() {}
 
+	void LoadFrames(string filename);
 	void Update(Vector2 pos);
-	void SetFrames(vector<Texture2D>& frames, float frameDuration, bool loop = true);
+	void SetAnimation(string animation);
 };
 

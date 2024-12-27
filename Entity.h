@@ -19,7 +19,7 @@ public:
 	float speed;
 
 	Entity(Vector2 pos, Rectangle hitbox, const char* filename, float speed=100);
-	Entity(Vector2 pos, Rectangle hitbox, vector<Texture2D> frames, float speed=100);
+	Entity(Vector2 pos, Rectangle hitbox, float speed=100);
 
 	void Collision(vector<Tile> tiles);
 };

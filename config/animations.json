@@ -1,0 +1,9 @@
+{
+	"animations": {
+		"player_walk": {
+			"loop": true,
+			"frameDuration": 0.2,
+			"filename": "amilia.json"
+		}
+	}
+}

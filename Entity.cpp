@@ -18,21 +18,11 @@ Entity::Entity(Vector2 pos, Rectangle hitbox, const char* filename, float speed)
 	}
 }
 
-Entity::Entity(Vector2 pos, Rectangle hitbox, vector<Texture2D> frames, float speed)
+Entity::Entity(Vector2 pos, Rectangle hitbox, float speed)
 	: pos(pos), hitbox(hitbox), speed(speed), dPos({ 0,0 })
 {
 	this->hitbox.x += pos.x;
 	this->hitbox.y += pos.y;
-
-	if (hitbox.width == 0)
-	{
-		this->hitbox.width = frames[0].width;
-	}
-
-	if (hitbox.height == 0)
-	{
-		this->hitbox.height = frames[0].height;
-	}
 }
 
 void Entity::Collision(vector<Tile> tiles)

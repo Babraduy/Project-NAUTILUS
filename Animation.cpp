@@ -1,52 +1,99 @@
 #include "Animation.h"
 
-Animation::Animation(vector<Texture2D>& frames, float frameDuration, bool loop)
-	:frames(frames), frameDuration(frameDuration), loop(loop), currentFrame(0), elapsedTime(0), isFinished(false), flipX(1), flipY(1)
+Animation::Animation(string animation)
+	:flipX(1), flipY(1)
 {
+	SetAnimation(animation);
+}
+
+void Animation::LoadFrames(string filename)
+{
+	ifstream file(filename);
+
+	if (!file.is_open())
+	{
+		cout << "File " << filename << " doesn't exist\n";
+		return;
+	}
+
+	json jsonData;
+	file >> jsonData;
+
+	frames.clear();
+
+	for (auto& frameData : jsonData["frames"])
+	{
+		const auto& frame = frameData["frame"];
+
+		Frame f;
+		f.x = frame["x"];
+		f.y = frame["y"];
+		f.w = frame["w"];
+		f.h = frame["h"];
+		frames.push_back(f);
+	}
+
+	string spriteSheetFilename = "img/" + jsonData["meta"]["image"].get<string>();
+
+	spriteSheet = LoadTexture(spriteSheetFilename.c_str());
 }
 
 void Animation::Update(Vector2 pos)
 {
-	if (!isFinished)
-	{
-		elapsedTime += GetFrameTime();
-		if (elapsedTime >= frameDuration)
-		{
-			currentFrame++;
-			elapsedTime = 0;
+	elapsedTime += GetFrameTime();
 
-			if (currentFrame >= frames.size())
+	if (elapsedTime >= frameDuration && !isFinished)
+	{
+		elapsedTime = 0;
+		currentFrame++;
+		if (currentFrame >= frames.size())
+		{
+			if (loop)
 			{
-				if(!loop)
-				{
-					isFinished = true;
-					currentFrame--;
-				}
-				else
-				{
-					currentFrame = 0;
-				}
+				currentFrame = 0;
+			}
+			else
+			{
+				currentFrame--;
+				isFinished = true;
 			}
 		}
 	}
 
-	Texture2D& texture = frames[currentFrame];
+	Frame& frame = frames[currentFrame];
 
-	DrawTexturePro(texture, { 0,0,(float)texture.width*flipX,(float)texture.height * flipY },
-		{ pos.x, pos.y,(float)texture.width, (float)texture.height },
-		{ 0,0 }, 0, WHITE);
+	DrawTexturePro(
+		spriteSheet,
+		{ (float)frame.x, (float)frame.y, (float)frame.w, (float)frame.h },
+		{ pos.x, pos.y,(float)frame.w,(float)frame.h },
+		{ 0,0 },
+		0,
+		WHITE);
 }
 
-void Animation::SetFrames(vector<Texture2D>& frames, float frameDuration, bool loop)
+void Animation::SetAnimation(string animation)
 {
-	if (!equal(this->frames.begin(), this->frames.end(), frames.begin(), [](const Texture2D& a, const Texture2D& b) {
-		return a.id == b.id;
-		}) || this->frameDuration != frameDuration || this->loop != loop)
+	if (animation != currentAnimation)
 	{
-		this->frames = frames;
-		this->frameDuration = frameDuration;
-		this->loop = loop;
+		UnloadTexture(spriteSheet);
 
-		elapsedTime = currentFrame = isFinished = 0;
+		currentAnimation = animation;
+		isFinished = false;
+
+		currentFrame = 0;
+		elapsedTime = 0;
+
+		ifstream file("config/animations.json");
+		json jsonData;
+		file >> jsonData;
+
+		auto& data = jsonData["animations"][animation];
+
+		loop = data["loop"];
+		frameDuration = data["frameDuration"];
+
+		string filename = "config/" + data["filename"].get<string>();
+
+		LoadFrames(filename);
 	}
 }

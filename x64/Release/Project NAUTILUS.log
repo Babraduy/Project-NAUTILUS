@@ -1,16 +1,7 @@
-﻿  Player.cpp
-  main.cpp
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(25,48): warning C4244: аргумент: преобразование "const float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(25,40): warning C4244: аргумент: преобразование "const float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(26,68): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(26,47): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(40,48): warning C4244: аргумент: преобразование "const float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(40,40): warning C4244: аргумент: преобразование "const float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(41,68): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(41,47): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+﻿  Animation.cpp
   Создание кода
-  8 of 395 functions ( 2.0%) were compiled, the rest were copied from previous compilation.
+  5 of 1624 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   Project NAUTILUS.vcxproj -> D:\C++\Project NAUTILUS\x64\Release\Project NAUTILUS.exe
