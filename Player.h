@@ -12,8 +12,6 @@ private:
 	Animation animManager;
 
 public:
-	Rectangle camera;
-
 	void Update(vector<Tile> tiles);
 
 	Player(Vector2 pos, Rectangle hitbox, float speed = 100);

@@ -31,6 +31,11 @@ void Player::Update(vector<Tile> tiles)
 		animManager.flipX = 1;
 	}
 
+	if (dPos.x == 0 && dPos.y == 0)
+	{
+		animManager.SetAnimation("amilia");
+	}
+
 	Collision(tiles);
 
 	animManager.Update(pos);
@@ -39,8 +44,6 @@ void Player::Update(vector<Tile> tiles)
 Player::Player(Vector2 pos, Rectangle hitbox, float speed)
 	:Entity(pos, hitbox, speed)
 {
-	camera = { 0,0,(float)GetRenderWidth(), (float)GetRenderHeight() };
-
 	animManager = Animation("player_walk");
 
 	if (hitbox.width == 0)
