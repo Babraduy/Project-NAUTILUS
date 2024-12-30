@@ -35,7 +35,13 @@ void Animation::LoadFrames(string filename)
 
 	string spriteSheetFilename = "img/" + jsonData["meta"]["image"].get<string>();
 
-	spriteSheet = LoadTexture(spriteSheetFilename.c_str());
+	if (textureCache.find(filename) == textureCache.end())
+	{
+		cout << "1 " << filename << endl;
+		textureCache[filename] = LoadTexture(spriteSheetFilename.c_str());
+	}
+
+	spriteSheet = textureCache[filename];
 }
 
 void Animation::Update(Vector2 pos)
@@ -75,8 +81,6 @@ void Animation::SetAnimation(string animation)
 {
 	if (animation != currentAnimation)
 	{
-		UnloadTexture(spriteSheet);
-
 		currentAnimation = animation;
 		isFinished = false;
 
@@ -96,4 +100,13 @@ void Animation::SetAnimation(string animation)
 
 		LoadFrames(filename);
 	}
+}
+
+void Animation::ClearTextureCache()
+{
+	for (auto& cache : textureCache)
+	{
+		UnloadTexture(cache.second);
+	}
+	textureCache.clear();
 }

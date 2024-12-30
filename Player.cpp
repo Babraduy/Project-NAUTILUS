@@ -44,7 +44,7 @@ void Player::Update(vector<Tile> tiles)
 Player::Player(Vector2 pos, Rectangle hitbox, float speed)
 	:Entity(pos, hitbox, speed)
 {
-	animManager = Animation("player_walk");
+	animManager = Animation("amilia");
 
 	if (hitbox.width == 0)
 	{

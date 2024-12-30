@@ -10,6 +10,8 @@
 using namespace std;
 using namespace nlohmann;
 
+static unordered_map<string, Texture2D> textureCache;
+
 struct Frame
 {
 	int x, y, w, h;
@@ -35,5 +37,6 @@ public:
 	void LoadFrames(string filename);
 	void Update(Vector2 pos);
 	void SetAnimation(string animation);
+	static void ClearTextureCache();
 };
 

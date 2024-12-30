@@ -1,23 +1,5 @@
 #include "Entity.h"
 
-Entity::Entity(Vector2 pos, Rectangle hitbox, const char* filename, float speed)
-	: pos(pos), hitbox(hitbox), speed(speed), dPos({0,0})
-{
-	this->hitbox.x += pos.x;
-	this->hitbox.y += pos.y;
-	textures.push_back(LoadTexture(filename));
-
-	if (hitbox.width == 0)
-	{
-		this->hitbox.width = textures[0].width;
-	}
-
-	if (hitbox.height == 0)
-	{
-		this->hitbox.height = textures[0].height;
-	}
-}
-
 Entity::Entity(Vector2 pos, Rectangle hitbox, float speed)
 	: pos(pos), hitbox(hitbox), speed(speed), dPos({ 0,0 })
 {
