@@ -10,6 +10,15 @@
 
 using namespace std;
 
+/* For smooth camera movement */
+Vector2 Lerp(Vector2 start, Vector2 end, float t)
+{
+    return {
+        start.x + t * (end.x - start.x),
+        start.y + t * (end.y - start.y)
+    };
+}
+
 int main()
 {
 	InitWindow(START_WIDTH, START_HEIGHT, "Project NAUTILUS");
@@ -24,6 +33,7 @@ int main()
     Player player({ tileSize,tileSize }, { 0, 0, 0, tileSize }, 100);
 
     Camera2D camera;
+    camera.target = player.pos;
     camera.rotation = 0;
     camera.zoom = 4;
 
@@ -60,8 +70,8 @@ int main()
             player.pos.y + player.hitbox.height / 2.0f
         };
 
-        camera.target.x = clamp(playerCenter.x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
-        camera.target.y = clamp(playerCenter.y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
+        camera.target.x = clamp(Lerp(camera.target, playerCenter, 0.1f).x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
+        camera.target.y = clamp(Lerp(camera.target, playerCenter, 0.1f).y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
 
         camera.offset = { START_WIDTH / 2.0f, START_HEIGHT / 2.0f };
 

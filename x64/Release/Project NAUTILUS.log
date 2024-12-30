@@ -1,7 +1,9 @@
-﻿  Animation.cpp
+﻿  main.cpp
+D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(48,128): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+D:\C++\Project NAUTILUS\Project NAUTILUS\main.cpp(48,67): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
   Создание кода
-  4 of 2040 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+  5 of 2041 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   Project NAUTILUS.vcxproj -> D:\C++\Project NAUTILUS\x64\Release\Project NAUTILUS.exe
