@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Dialogue.h"
 
 using namespace std;
 
@@ -28,6 +29,8 @@ private:
 	Animation animManager;
 
 public:
+    Dialogue dialogueManager;
+
 	void Update(vector<Tile> tiles);
 
 	Player(Vector2 pos, Rectangle hitbox, float speed = 100);

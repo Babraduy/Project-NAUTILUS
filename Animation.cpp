@@ -53,7 +53,6 @@ void Animation::LoadFrames(string filename)
 
 	if (textureCache.find(filename) == textureCache.end())
 	{
-		cout << "1 " << filename << endl;
 		textureCache[filename] = LoadTexture(spriteSheetFilename.c_str());
 	}
 
@@ -87,7 +86,7 @@ void Animation::Update(Vector2 pos)
 	DrawTexturePro(
 		spriteSheet,
 		{ (float)frame.x, (float)frame.y, (float)frame.w*flipX, (float)frame.h * flipY },
-		{ pos.x, pos.y,(float)frame.w,(float)frame.h },
+		{ pos.x, pos.y,(float)frame.w,(float)frame.h},
 		{ 0,0 },
 		0,
 		WHITE);

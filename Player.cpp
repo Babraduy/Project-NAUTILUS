@@ -20,31 +20,34 @@ void Player::Update(vector<Tile> tiles)
 {
 	dPos = { 0,0 };
 
-	if (IsKeyDown(KEY_W))
+	if (dialogueManager.isClosed)
 	{
-		dPos.y-= speed * GetFrameTime();
+		if (IsKeyDown(KEY_W))
+		{
+			dPos.y -= speed * GetFrameTime();
 
-		animManager.SetAnimation("player_walk");
-	}
-	if (IsKeyDown(KEY_A))
-	{
-		dPos.x-= speed * GetFrameTime();
+			animManager.SetAnimation("player_walk");
+		}
+		if (IsKeyDown(KEY_A))
+		{
+			dPos.x -= speed * GetFrameTime();
 
-		animManager.SetAnimation("player_walk");
-		animManager.flipX = -1;
-	}
-	if (IsKeyDown(KEY_S))
-	{
-		dPos.y+=speed * GetFrameTime();
+			animManager.SetAnimation("player_walk");
+			animManager.flipX = -1;
+		}
+		if (IsKeyDown(KEY_S))
+		{
+			dPos.y += speed * GetFrameTime();
 
-		animManager.SetAnimation("player_walk");
-	}
-	if (IsKeyDown(KEY_D))
-	{
-		dPos.x+=speed * GetFrameTime();
+			animManager.SetAnimation("player_walk");
+		}
+		if (IsKeyDown(KEY_D))
+		{
+			dPos.x += speed * GetFrameTime();
 
-		animManager.SetAnimation("player_walk");
-		animManager.flipX = 1;
+			animManager.SetAnimation("player_walk");
+			animManager.flipX = 1;
+		}
 	}
 
 	if (dPos.x == 0 && dPos.y == 0)
@@ -61,6 +64,7 @@ Player::Player(Vector2 pos, Rectangle hitbox, float speed)
 	:Entity(pos, hitbox, speed)
 {
 	animManager = Animation("amilia");
+	dialogueManager = Dialogue("test1", GetFontDefault(), 40);
 
 	if (hitbox.width == 0)
 	{

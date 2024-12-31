@@ -35,6 +35,7 @@ public:
 	float speed;
 
 	Entity(Vector2 pos, Rectangle hitbox, float speed=100);
+    Entity() {}
 
 	void Collision(vector<Tile> tiles);
 };

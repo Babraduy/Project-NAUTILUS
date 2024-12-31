@@ -38,7 +38,6 @@ Vector2 Lerp(Vector2 start, Vector2 end, float t)
 int main()
 {
 	InitWindow(START_WIDTH, START_HEIGHT, "Project NAUTILUS");
-	SetTargetFPS(144);
 	SetExitKey(0);
 
     int width = 1280, height = 720;
@@ -46,7 +45,7 @@ int main()
     Map map("test1.json");
     float tileSize = map.tileSize;
 
-    Player player({ tileSize,tileSize }, { 0, 0, 0, tileSize }, 100);
+    Player player({ tileSize,tileSize }, { 0, 0, tileSize, tileSize }, 100);
 
     Camera2D camera;
     camera.target = player.pos;
@@ -106,14 +105,17 @@ int main()
 
 		ClearBackground(BLACK);
 
-		player.Update(map.GetNearbyTiles({player.pos.x - tileSize, player.pos.y - tileSize, tileSize * 3, tileSize * 3}));
-
 		for (Tile tile : visibleTiles)
 		{
 			tile.Draw();
 		}
 
+        player.Update(map.GetNearbyTiles({ player.pos.x - tileSize, player.pos.y - tileSize, tileSize * 3, tileSize * 3 }));
+
         EndMode2D();
+
+        DrawFPS(0, 0);
+        player.dialogueManager.Update();
 
 		EndTextureMode();
 
