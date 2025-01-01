@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-    Copyright (C) 2024  Babraduy
+    Copyright (C) 2024-2025  Babraduy
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,8 @@ enum TileType
 {
 	WALKABLE,
 	SOLID,
-	TRIGGER
+	TRIGGER_DIALOGUE,
+    TRIGGER_DIALOGUE_DESTROYABLE
 };
 
 class Tile : public Rectangle
@@ -37,10 +38,13 @@ private:
 
 public:
 	TileType type;
+    string triggerValue;
 
 	Tile() {}
 	Tile(Rectangle rect, TileType type, const char* filename, Rectangle textureRect = { 0,0,0,0 });
 	Tile(Rectangle rect, TileType type, Texture& texture, Rectangle textureRect = { 0,0,0,0 });
 
 	void Draw();
+
+    bool operator==(const Tile& other) const;
 };

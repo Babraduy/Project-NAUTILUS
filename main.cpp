@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-    Copyright (C) 2024  Babraduy
+    Copyright (C) 2024-2025  Babraduy
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ int main()
 			tile.Draw();
 		}
 
-        player.Update(map.GetNearbyTiles({ player.pos.x - tileSize, player.pos.y - tileSize, tileSize * 3, tileSize * 3 }));
+        player.Update(map);
 
         EndMode2D();
 

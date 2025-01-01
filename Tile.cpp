@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-	Copyright (C) 2024  Babraduy
+	Copyright (C) 2024-2025  Babraduy
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -53,4 +53,9 @@ void Tile::Draw()
 	DrawTexturePro(texture, textureRect,
 		{ x, y,textureRect.width, textureRect.height},
 		{ 0,0 }, 0, WHITE);
+}
+
+bool Tile::operator==(const Tile& other) const
+{
+	return x == other.x && y == other.y && type == other.type && triggerValue == other.triggerValue;
 }

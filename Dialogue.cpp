@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-	Copyright (C) 2024  Babraduy
+	Copyright (C) 2024-2025  Babraduy
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -27,10 +27,10 @@ void Dialogue::LoadText(string index, Font font, float typingSpeed)
 	this->font = font;
 	this->typingSpeed = typingSpeed;
 
-
 	isFinished = isClosed = false;
 
 	visibleChars = 0;
+	elapsedTime = 0.0f;
 
 	ifstream file("config/dialogues.json");
 

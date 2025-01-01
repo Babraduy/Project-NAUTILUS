@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-	Copyright (C) 2024  Babraduy
+	Copyright (C) 2024-2025  Babraduy
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -23,8 +23,10 @@ Entity::Entity(Vector2 pos, Rectangle hitbox, float speed)
 	this->hitbox.y += pos.y;
 }
 
-void Entity::Collision(vector<Tile> tiles)
+void Entity::Collision(Map& map)
 {
+	vector<Tile> tiles = map.GetNearbyTiles({ pos.x - map.tileSize, pos.y - map.tileSize, map.tileSize * 3, map.tileSize * 3 });
+
 	pos.x += dPos.x;
 	hitbox.x += dPos.x;
 
@@ -32,9 +34,8 @@ void Entity::Collision(vector<Tile> tiles)
 	{
 		if (CheckCollisionRecs(hitbox, tile))
 		{
-			switch (tile.type)
+			if (tile.type == SOLID)
 			{
-			case SOLID:
 				if (dPos.x > 0)
 				{
 					pos.x -= hitbox.x + hitbox.width - tile.x;
@@ -45,7 +46,6 @@ void Entity::Collision(vector<Tile> tiles)
 					pos.x -= hitbox.x - (tile.x + tile.width);
 					hitbox.x -= hitbox.x - (tile.x + tile.width);
 				}
-				break;
 			}
 		}
 	}
@@ -57,9 +57,8 @@ void Entity::Collision(vector<Tile> tiles)
 	{
 		if (CheckCollisionRecs(hitbox, tile))
 		{
-			switch (tile.type)
+			if (tile.type == SOLID)
 			{
-			case SOLID:
 				if (dPos.y > 0)
 				{
 					pos.y -= hitbox.y + hitbox.height - tile.y;
@@ -70,7 +69,6 @@ void Entity::Collision(vector<Tile> tiles)
 					pos.y -= hitbox.y - (tile.y + tile.height);
 					hitbox.y -= hitbox.y - (tile.y + tile.height);
 				}
-				break;
 			}
 		}
 	}

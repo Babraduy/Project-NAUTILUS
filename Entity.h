@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-    Copyright (C) 2024  Babraduy
+    Copyright (C) 2024-2025  Babraduy
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 #include "Tile.h"
 #include "Animation.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -37,6 +38,6 @@ public:
 	Entity(Vector2 pos, Rectangle hitbox, float speed=100);
     Entity() {}
 
-	void Collision(vector<Tile> tiles);
+	virtual void Collision(Map& map);
 };
 

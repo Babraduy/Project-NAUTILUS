@@ -16,7 +16,7 @@
 
 #include "Player.h"
 
-void Player::Update(vector<Tile> tiles)
+void Player::Update(Map& map)
 {
 	dPos = { 0,0 };
 
@@ -55,9 +55,32 @@ void Player::Update(vector<Tile> tiles)
 		animManager.SetAnimation("amilia");
 	}
 
-	Collision(tiles);
+
+	Collision(map);
 
 	animManager.Update(pos);
+}
+
+void Player::Collision(Map& map)
+{
+	Entity::Collision(map);
+
+	vector<Tile> tiles = map.GetNearbyTiles({ pos.x, pos.y, map.tileSize, map.tileSize });
+
+	/* Check for triggers */
+	for (const Tile& tile : tiles)
+	{
+		if (CheckCollisionRecs(hitbox, tile))
+		{
+			switch (tile.type)
+			{
+			case TRIGGER_DIALOGUE_DESTROYABLE:
+				dialogueManager.LoadText(tile.triggerValue);
+				map.RemoveTile(tile);
+				break;
+			}
+		}
+	}
 }
 
 Player::Player(Vector2 pos, Rectangle hitbox, float speed)

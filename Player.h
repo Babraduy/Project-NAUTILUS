@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-    Copyright (C) 2024  Babraduy
+    Copyright (C) 2024-2025  Babraduy
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include "Entity.h"
 #include "Dialogue.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -31,7 +32,8 @@ private:
 public:
     Dialogue dialogueManager;
 
-	void Update(vector<Tile> tiles);
+	void Update(Map& map);
+    void Collision(Map& map) override;
 
 	Player(Vector2 pos, Rectangle hitbox, float speed = 100);
 	~Player();

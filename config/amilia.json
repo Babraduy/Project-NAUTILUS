@@ -2,35 +2,35 @@
 
 {
 	"filename": "01.png",
-	"frame": {"x":0,"y":0,"w":9,"h":28},
+	"frame": {"x":0,"y":0,"w":17,"h":28},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":28},
-	"sourceSize": {"w":9,"h":28}
+	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":28},
+	"sourceSize": {"w":17,"h":28}
 },
 {
 	"filename": "02.png",
-	"frame": {"x":9,"y":0,"w":9,"h":28},
+	"frame": {"x":17,"y":0,"w":17,"h":28},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":28},
-	"sourceSize": {"w":9,"h":28}
+	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":28},
+	"sourceSize": {"w":17,"h":28}
 },
 {
 	"filename": "03.png",
-	"frame": {"x":18,"y":0,"w":8,"h":28},
+	"frame": {"x":34,"y":0,"w":16,"h":28},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":28},
-	"sourceSize": {"w":8,"h":28}
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":28},
+	"sourceSize": {"w":16,"h":28}
 }],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "amilia.png",
 	"format": "RGBA8888",
-	"size": {"w":26,"h":28},
+	"size": {"w":50,"h":28},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b33ea97f685ebeb3dbd93488224cf856:df8248021ecb8128591be954c68f4a19:b3fa382584819d48e6214b46230ebff0$"
+	"smartupdate": "$TexturePacker:SmartUpdate:b093d4e510379fcde26300da4b0c36cb:0a573f6e4a98270820b2d2ec64ce0a39:b3fa382584819d48e6214b46230ebff0$"
 }
 }

@@ -1,5 +1,5 @@
 /*  Project NAUTILUS
-    Copyright (C) 2024  Babraduy
+    Copyright (C) 2024-2025  Babraduy
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,10 +77,14 @@ void Map::Load(string filename)
                         {
                             tile.type = WALKABLE;
                         }
-                        if (value == "trigger")
+                        if (value == "trigger_dialogue_destroyable")
                         {
-                            tile.type = TRIGGER;
+                            tile.type = TRIGGER_DIALOGUE_DESTROYABLE;
                         }
+                    }
+                    if (prop["name"] == "dialogue")
+                    {
+                        tile.triggerValue = prop["value"].get<string>();
                     }
                 }
 
@@ -97,15 +101,19 @@ int Map::GetCellIndex(int x, int y)
 
 void Map::AddTile(const Tile& tile)
 {
-    int topLeft = GetCellIndex(tile.x, tile.y);
-    int bottomRight = GetCellIndex(tile.x + tile.width, tile.y + tile.height);
+    cells[GetCellIndex(tile.x, tile.y)].push_back(tile);
+}
 
-
-    for (int y = topLeft / 10000; y <= bottomRight / 10000; y++)
+void Map::RemoveTile(Tile tile)
+{
+    auto it = cells.find(GetCellIndex(tile.x, tile.y));
+    if (it != cells.end())
     {
-        for (int x = topLeft % 10000; x <= bottomRight % 10000; x++)
+        it->second.erase(remove(it->second.begin(), it->second.end(), tile), it->second.end());
+
+        if (it->second.empty())
         {
-            cells[y * 10000 + x].push_back(tile);
+            cells.erase(it);
         }
     }
 }
