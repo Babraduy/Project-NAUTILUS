@@ -76,7 +76,13 @@ void Player::Collision(Map& map)
 			{
 			case TRIGGER_DIALOGUE_DESTROYABLE:
 				dialogueManager.LoadText(tile.triggerValue);
-				map.RemoveTile(tile);
+				for (const Tile& tile2 : map.GetNearbyTiles({ 0,0,map.size.x * map.tileSize,map.size.y * map.tileSize }))
+				{
+					if (tile.IsSameTrigger(tile2))
+					{
+						map.RemoveTile(tile2);
+					}
+				}
 				break;
 			}
 		}
@@ -87,7 +93,7 @@ Player::Player(Vector2 pos, Rectangle hitbox, float speed)
 	:Entity(pos, hitbox, speed)
 {
 	animManager = Animation("amilia");
-	dialogueManager = Dialogue("test1", GetFontDefault(), 40);
+	dialogueManager = Dialogue("test1", GetFontDefault(), 50);
 
 	if (hitbox.width == 0)
 	{

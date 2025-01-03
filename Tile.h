@@ -44,7 +44,8 @@ public:
 	Tile(Rectangle rect, TileType type, const char* filename, Rectangle textureRect = { 0,0,0,0 });
 	Tile(Rectangle rect, TileType type, Texture& texture, Rectangle textureRect = { 0,0,0,0 });
 
-	void Draw();
+	void Draw() const;
+    bool IsSameTrigger(const Tile& other) const;
 
     bool operator==(const Tile& other) const;
 };

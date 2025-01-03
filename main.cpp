@@ -24,6 +24,8 @@
 #define START_WIDTH 1280
 #define START_HEIGHT 720
 
+#define DEBUG_MODE true
+
 using namespace std;
 
 /* For smooth camera movement */
@@ -85,8 +87,8 @@ int main()
             player.pos.y + player.hitbox.height / 2.0f
         };
 
-        camera.target.x = clamp(Lerp(camera.target, playerCenter, 0.1f).x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
-        camera.target.y = clamp(Lerp(camera.target, playerCenter, 0.1f).y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
+        camera.target.x = clamp(Lerp(camera.target, playerCenter, 0.01f).x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
+        camera.target.y = clamp(Lerp(camera.target, playerCenter, 0.01f).y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
 
         camera.offset = { START_WIDTH / 2.0f, START_HEIGHT / 2.0f };
 
@@ -107,7 +109,17 @@ int main()
 
 		for (Tile tile : visibleTiles)
 		{
-			tile.Draw();
+            if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE)
+            {
+                if (DEBUG_MODE)
+                {
+                    tile.Draw();
+                }
+            }
+            else
+            {
+                tile.Draw();
+            }
 		}
 
         player.Update(map);
@@ -115,7 +127,7 @@ int main()
         EndMode2D();
 
         DrawFPS(0, 0);
-        player.dialogueManager.Update();
+        player.dialogueManager.Update(START_WIDTH, START_HEIGHT);
 
 		EndTextureMode();
 

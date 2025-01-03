@@ -48,11 +48,16 @@ Tile::Tile(Rectangle rect, TileType type, Texture& texture, Rectangle textureRec
 	}
 }
 
-void Tile::Draw()
+void Tile::Draw() const
 {
 	DrawTexturePro(texture, textureRect,
 		{ x, y,textureRect.width, textureRect.height},
 		{ 0,0 }, 0, WHITE);
+}
+
+bool Tile::IsSameTrigger(const Tile& other) const
+{
+	return type == other.type && triggerValue == other.triggerValue;
 }
 
 bool Tile::operator==(const Tile& other) const

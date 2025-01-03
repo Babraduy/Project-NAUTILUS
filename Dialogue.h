@@ -42,7 +42,7 @@ public:
 	Dialogue() {}
 
 	void LoadText(string index, Font font = GetFontDefault(), float typingSpeed = 10.0f);
-	void Update();
+	void Update(int WIDTH, int HEIGHT);
 	void DrawTextRec(Font font, const char* text, Rectangle rec, float spacing, bool wordWrap, Color tint);
 
 };

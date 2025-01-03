@@ -54,7 +54,7 @@ void Dialogue::LoadText(string index, Font font, float typingSpeed)
 	}
 }
 
-void Dialogue::Update()
+void Dialogue::Update(int WIDTH, int HEIGHT)
 {
 
 	if (!isClosed)
@@ -76,9 +76,9 @@ void Dialogue::Update()
 			if (visibleChars > strlen(text.c_str())) isFinished = true;
 		}
 
-		DrawRectangleRec({(float) padding, GetRenderHeight() / 2.0f + padding, (float)GetRenderWidth() - padding, GetRenderHeight() / 2.0f - padding }, BLACK);
+		DrawRectangleRec({(float) padding, HEIGHT / 2.0f + padding, (float)WIDTH - padding, HEIGHT / 2.0f - padding }, BLACK);
 
-		DrawTextRec(font, TextSubtext(text.c_str(), 0, visibleChars), { padding * 2.0f, GetRenderHeight() / 2.0f + padding * 2.0f, GetRenderWidth() - padding * 2.0f, GetRenderHeight() / 2.0f - padding * 2.0f }, 5, false, WHITE);
+		DrawTextRec(font, TextSubtext(text.c_str(), 0, visibleChars), { padding * 2.0f, HEIGHT / 2.0f + padding * 2.0f, WIDTH - padding * 2.0f, HEIGHT / 2.0f - padding * 2.0f }, 5, false, WHITE);
 	}
 }
 
