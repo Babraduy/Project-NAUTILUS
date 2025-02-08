@@ -20,6 +20,7 @@
 #include <fstream>
 
 #include "Tile.h"
+#include "Light.h"
 
 using namespace std;
 using namespace nlohmann;

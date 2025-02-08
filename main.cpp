@@ -24,7 +24,7 @@
 #define START_WIDTH 1280
 #define START_HEIGHT 720
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 
 using namespace std;
 
@@ -63,6 +63,16 @@ int main()
     /* Scale up the window */
     SetWindowSize(width, height);
     SetWindowPosition(GetMonitorWidth(GetCurrentMonitor()) / 2.0f - width / 2.0f, GetMonitorHeight(GetCurrentMonitor()) / 2.0f - height / 2.0f);
+
+    Shader lightingShader = LoadShader("shaders/lighting.vert", "shaders/lighting.frag");
+    SetShaderValue(lightingShader, GetShaderLocation(lightingShader, "tex0"), 0, SHADER_UNIFORM_SAMPLER2D);
+
+    vector<Light> lights;
+
+    for (Tile t : map.GetNearbyTiles({ 0,0,10000,10000 }))
+    {
+        if (t.type == LIGHT) lights.push_back(Light({ t.x+tileSize/2.0f,t.y + tileSize / 2.0f }, { 1,1,0.5,1 }, lightingShader));
+    }
 
     /* Main loop */
 	while (!WindowShouldClose())
@@ -104,12 +114,14 @@ int main()
 		BeginTextureMode(renderTexture);
 
         BeginMode2D(camera);
+        
+        BeginShaderMode(lightingShader);
 
 		ClearBackground(BLACK);
 
 		for (Tile tile : visibleTiles)
 		{
-            if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE)
+            if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE || tile.type == LIGHT)
             {
                 if (DEBUG_MODE)
                 {
@@ -123,6 +135,8 @@ int main()
 		}
 
         player.Update(map);
+
+        EndShaderMode();
 
         EndMode2D();
 
@@ -146,6 +160,8 @@ int main()
 	}
 
     Animation::ClearTextureCache();
+
+    UnloadShader(lightingShader);
 
 	CloseWindow();
 

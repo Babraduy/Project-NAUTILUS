@@ -27,7 +27,8 @@ enum TileType
 	WALKABLE,
 	SOLID,
 	TRIGGER_DIALOGUE,
-    TRIGGER_DIALOGUE_DESTROYABLE
+    TRIGGER_DIALOGUE_DESTROYABLE,
+    LIGHT
 };
 
 class Tile : public Rectangle

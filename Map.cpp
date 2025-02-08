@@ -81,6 +81,10 @@ void Map::Load(string filename)
                         {
                             tile.type = TRIGGER_DIALOGUE_DESTROYABLE;
                         }
+                        if (value == "light")
+                        {
+                            tile.type = LIGHT;
+                        }
                     }
                     if (prop["name"] == "dialogue")
                     {
