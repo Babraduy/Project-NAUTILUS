@@ -187,6 +187,11 @@
          "opacity":1,
          "properties":[
                 {
+                 "name":"color",
+                 "type":"color",
+                 "value":"#ffffffff"
+                }, 
+                {
                  "name":"type",
                  "type":"string",
                  "value":"light"

@@ -32,8 +32,8 @@ using namespace std;
 Vector2 Lerp(Vector2 start, Vector2 end, float t)
 {
     return {
-        start.x + t * (end.x - start.x),
-        start.y + t * (end.y - start.y)
+        start.x + t * (end.x - start.x)*GetFrameTime(),
+        start.y + t * (end.y - start.y) * GetFrameTime()
     };
 }
 
@@ -44,10 +44,13 @@ int main()
 
     int width = 1280, height = 720;
 
-    Map map("test1.json");
+    Shader lightingShader = LoadShader("shaders/lighting.vert", "shaders/lighting.frag");
+    SetShaderValue(lightingShader, GetShaderLocation(lightingShader, "tex0"), 0, SHADER_UNIFORM_SAMPLER2D);
+
+    Map map("test2.json", lightingShader);
     float tileSize = map.tileSize;
 
-    Player player({ tileSize,tileSize }, { 0, 0, tileSize, tileSize }, 100);
+    Player player({ tileSize,tileSize }, { 0, 0, tileSize-1, tileSize-1 }, 100);
 
     Camera2D camera;
     camera.target = player.pos;
@@ -63,16 +66,6 @@ int main()
     /* Scale up the window */
     SetWindowSize(width, height);
     SetWindowPosition(GetMonitorWidth(GetCurrentMonitor()) / 2.0f - width / 2.0f, GetMonitorHeight(GetCurrentMonitor()) / 2.0f - height / 2.0f);
-
-    Shader lightingShader = LoadShader("shaders/lighting.vert", "shaders/lighting.frag");
-    SetShaderValue(lightingShader, GetShaderLocation(lightingShader, "tex0"), 0, SHADER_UNIFORM_SAMPLER2D);
-
-    vector<Light> lights;
-
-    for (Tile t : map.GetNearbyTiles({ 0,0,10000,10000 }))
-    {
-        if (t.type == LIGHT) lights.push_back(Light({ t.x+tileSize/2.0f,t.y + tileSize / 2.0f }, { 1,1,0.5,1 }, lightingShader));
-    }
 
     /* Main loop */
 	while (!WindowShouldClose())
@@ -97,8 +90,8 @@ int main()
             player.pos.y + player.hitbox.height / 2.0f
         };
 
-        camera.target.x = clamp(Lerp(camera.target, playerCenter, 0.01f).x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
-        camera.target.y = clamp(Lerp(camera.target, playerCenter, 0.01f).y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
+        camera.target.x = clamp(Lerp(camera.target, playerCenter, 15.f).x, START_WIDTH / (2.0f * camera.zoom), map.size.x * tileSize - START_WIDTH / (2.0f * camera.zoom));
+        camera.target.y = clamp(Lerp(camera.target, playerCenter, 15.f).y, START_HEIGHT / (2.0f * camera.zoom), map.size.y * tileSize - START_HEIGHT / (2.0f * camera.zoom));
 
         camera.offset = { START_WIDTH / 2.0f, START_HEIGHT / 2.0f };
 
@@ -109,6 +102,11 @@ int main()
 
         visibleTiles = map.GetNearbyTiles(cameraRect);
 
+        /*for (Light l : map.lights)
+        {
+            l.color.w = SineWave(GetTime(), 10, 0.5, 0.4);
+            l.UpdateLight(lightingShader);
+        }*/
 
         /* Render the image */
 		BeginTextureMode(renderTexture);
@@ -119,22 +117,43 @@ int main()
 
 		ClearBackground(BLACK);
 
-		for (Tile tile : visibleTiles)
-		{
-            if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE || tile.type == LIGHT)
+        for (Tile tile : visibleTiles)
+        {
+            if (tile.layer == 1)
             {
-                if (DEBUG_MODE)
+                if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE || tile.type == LIGHT)
+                {
+                    if (DEBUG_MODE)
+                    {
+                        tile.Draw();
+                    }
+                }
+                else
                 {
                     tile.Draw();
                 }
             }
-            else
-            {
-                tile.Draw();
-            }
-		}
+        }
 
         player.Update(map);
+
+		for (Tile tile : visibleTiles)
+		{
+            if (tile.layer != 1)
+            {
+                if (tile.type == TRIGGER_DIALOGUE_DESTROYABLE || tile.type == TRIGGER_DIALOGUE || tile.type == LIGHT)
+                {
+                    if (DEBUG_MODE)
+                    {
+                        tile.Draw();
+                    }
+                }
+                else
+                {
+                    tile.Draw();
+                }
+            }
+		}
 
         EndShaderMode();
 
@@ -144,7 +163,6 @@ int main()
         player.dialogueManager.Update(START_WIDTH, START_HEIGHT);
 
 		EndTextureMode();
-
 
         /* Scale up the image */
         BeginDrawing();

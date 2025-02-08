@@ -40,6 +40,8 @@ private:
 public:
 	TileType type;
     string triggerValue;
+    Vector4 colorValue;
+    int layer;
 
 	Tile() {}
 	Tile(Rectangle rect, TileType type, const char* filename, Rectangle textureRect = { 0,0,0,0 });

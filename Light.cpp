@@ -26,9 +26,50 @@ Light::Light(Vector2 pos, Vector4 color, Shader shader)
 	posLoc = GetShaderLocation(shader, TextFormat("lights[%i].pos", lightsCount));
 	colorLoc = GetShaderLocation(shader, TextFormat("lights[%i].color", lightsCount));
 
-	SetShaderValue(shader, enabledLoc, &enabled, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, posLoc, &pos, SHADER_UNIFORM_VEC2);
-	SetShaderValue(shader, colorLoc, &color, SHADER_UNIFORM_VEC4);
+    UpdateLight(shader);
 
 	lightsCount++;
+}
+
+Light::Light(Vector2 pos, Color color, Shader shader)
+{
+    this->enabled = 1;
+    this->pos = pos;
+    this->color.x = color.r;
+    this->color.y = color.g;
+    this->color.z = color.b;
+    this->color.w = color.a;
+
+    enabledLoc = GetShaderLocation(shader, TextFormat("lights[%i].enabled", lightsCount));
+    posLoc = GetShaderLocation(shader, TextFormat("lights[%i].pos", lightsCount));
+    colorLoc = GetShaderLocation(shader, TextFormat("lights[%i].color", lightsCount));
+
+    UpdateLight(shader);
+
+    lightsCount++;
+}
+
+void Light::UpdateLight(Shader shader)
+{
+    SetShaderValue(shader, enabledLoc, &enabled, SHADER_UNIFORM_INT);
+    SetShaderValue(shader, posLoc, &pos, SHADER_UNIFORM_VEC2);
+    SetShaderValue(shader, colorLoc, &color, SHADER_UNIFORM_VEC4);
+}
+
+Vector4 ParseColor(const std::string & hex) {
+    if (hex.empty() || hex[0] != '#' || hex.length() < 7) return {1,1,1,1};
+
+    int r, g, b, a = 255;
+    sscanf_s(hex.c_str(), "#%02x%02x%02x", &r, &g, &b);
+    
+    if (hex.length() == 9) {
+        sscanf_s(hex.c_str(), "#%02x%02x%02x%02x", &a, &r, &g, &b);
+    }
+
+    return { r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f };
+}
+
+float SineWave(float time, float freq, float ampl, float off)
+{
+    return ampl * sin(freq * time) + off;
 }

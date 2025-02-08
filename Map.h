@@ -35,9 +35,11 @@ public:
     unordered_map<int, Tile> tileIDs;
     Vector2 size;
 
-    Map(string filename);
+    vector<Light> lights;
 
-    void Load(string filename);
+    Map(string filename, Shader shader);
+
+    void Load(string filename, Shader shader);
 
     int GetCellIndex(int x, int y);
     void AddTile(const Tile& tile);

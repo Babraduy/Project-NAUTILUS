@@ -16,12 +16,12 @@
 
 #include "Map.h"
 
-Map::Map(string filename)
+Map::Map(string filename, Shader shader)
 {
-    Load(filename);
+    Load(filename, shader);
 }
 
-void Map::Load(string filename)
+void Map::Load(string filename, Shader shader)
 {
     filename = "maps/" + filename;
 
@@ -90,9 +90,20 @@ void Map::Load(string filename)
                     {
                         tile.triggerValue = prop["value"].get<string>();
                     }
+                    if (prop["name"] == "color")
+                    {
+                        tile.colorValue = ParseColor(prop["value"].get<string>());
+                    }
                 }
 
+                tile.layer = data["id"];
+
                 AddTile(tile);
+
+                if (tile.type == LIGHT)
+                {
+                    lights.push_back(Light({ tile.x + tileSize/2.0f, tile.y + tileSize/2.0f }, tile.colorValue, shader));
+                }
             }
         }
     }

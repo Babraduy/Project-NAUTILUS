@@ -19,8 +19,12 @@
 #define MAX_LIGHTS 64
 
 #include "raylib.h"
+#include <iostream>
 
 static int lightsCount = 0;
+
+Vector4 ParseColor(const std::string& hex);
+float SineWave(float time, float freq, float ampl, float off);
 
 class Light
 {
@@ -33,4 +37,7 @@ public:
 
 	Light() {}
 	Light(Vector2 pos, Vector4 color, Shader shader);
+	Light(Vector2 pos, Color color, Shader shader);
+
+    void UpdateLight(Shader shader);
 };

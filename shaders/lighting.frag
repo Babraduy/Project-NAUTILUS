@@ -37,8 +37,8 @@ void main()
     vec4 texColor = texture(tex0, texCoord);
 
     float constant = 1.0;
-    float linear = 0.09;
-    float quadratic = 0.0032;
+    float linear = 0.001;
+    float quadratic = 0.0011;
 
 	vec3 ambient = vec3(0.1f);
 
@@ -46,14 +46,16 @@ void main()
 
 	for (int i=0; i<lights.length(); i++)
 	{
+        if (lights[i].enabled == 0) continue;
+
 		float distance = length(lights[i].pos - FragPos.xy);
 
-		float attenuation = 3.0 / (constant + linear * distance + quadratic * (distance * distance));
+		float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));
 
-		color += (lights[i].color.rgb * attenuation) * texColor.rgb;
+		color += (lights[i].color.rgb * attenuation) * texColor.rgb * lights[i].color.a;
 	}
 
 	color += ambient*texColor.rgb;
 
-	FragColor = vec4(clamp(color,0.0,0.9), texColor.a);
+	FragColor = vec4(clamp(color,0.0,1.0), texColor.a);
 }
